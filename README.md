@@ -4,7 +4,7 @@ Bienvenido al repositorio del front-end de Servinsa, una aplicación web para la
 
 ## Descripción del Sitio
 
-AeroMeso es una plataforma que permite a los usuarios:
+Servinsa es una plataforma que permite a los usuarios:
 * Crear una cuenta y gestionar su perfil.
 * Visualizar un mapa de asientos interactivo del avión.
 * Reservar uno o múltiples asientos de forma manual o aleatoria.
@@ -25,12 +25,12 @@ Sigue estos pasos para descargar y configurar el proyecto en tu máquina local.
 
 1.  **Clona el repositorio:**
     ```bash
-    git clone [https://github.com/tu-usuario/aeromeso-frontend.git](https://github.com/tu-usuario/aeromeso-frontend.git)
+    git clone [https://github.com/Santiago-85/ProyectoFinal-ProgramacionWeb](https://github.com/Santiago-85/ProyectoFinal-ProgramacionWeb)
     ```
 
 2.  **Navega a la carpeta del proyecto:**
     ```bash
-    cd aeromeso-frontend
+    cd PROYECTOFINAL
     ```
 
 3.  **Instala las dependencias:**
