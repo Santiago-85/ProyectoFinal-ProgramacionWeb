@@ -1,0 +1,130 @@
+<div class="container my-5">
+  <div class="d-flex justify-content-center align-items-center mb-5 gap-3">
+    <h1 class="mb-0">Mis Reservas</h1>
+    <button class="btn btn-success" (click)="descargarXML()">
+      <i class="bi bi-download me-2"></i> Descargar Todo (XML)
+    </button>
+  </div>
+
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          Cargar Reservas desde Archivo XML
+        </div>
+        <div class="card-body text-center">
+          <p class="card-text">Selecciona un archivo XML generado previamente para cargar las reservas en el sistema.</p>
+          <input type="file" class="form-control mb-3" #fileInput accept=".xml">
+          <button class="btn btn-primary" (click)="onCargarXML()" [disabled]="isUploading">
+            <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            {{ isUploading ? 'Cargando...' : 'Cargar Archivo' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="mb-5">
+
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="mt-2">Cargando tus reservas...</p>
+  </div>
+
+  <div *ngIf="!isLoading && misReservas.length === 0" class="alert alert-secondary text-center" role="alert">
+    Aún no has realizado ninguna reserva. ¡<a routerLink="/reservar">Haz tu primera reserva ahora</a>!
+  </div>
+
+  <div *ngIf="!isLoading && misReservas.length > 0" class="row g-4">
+    <div *ngFor="let reserva of misReservas" class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Asiento: {{ reserva.id_asiento }}</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Pasajero:</strong> {{ reserva.nombre_pasajero }}</p>
+          <p><strong>CUI:</strong> {{ reserva.cui_pasajero }}</p>
+          <p><strong>Equipaje:</strong> {{ reserva.lleva_maleta ? 'Sí' : 'No' }}</p>
+          <p><strong>Precio:</strong> Q{{ reserva.precio_asiento | number:'1.2-2' }}</p>
+        </div>
+        <div class="card-footer text-muted">
+          <small>Reservado el: {{ formatDate(reserva.fecha_reserva) }}</small>
+            <div class="d-flex justify-content-end gap-2 mt-2">
+                <button class="btn btn-sm btn-secondary" (click)="abrirModalModificar(reserva)">Modificar</button>
+                <button class="btn btn-sm btn-danger" (click)="abrirModalCancelar(reserva)">Cancelar</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modificarModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modificar Asiento</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Para modificar el asiento <strong>{{ reservaActiva?.id_asiento }}</strong>, por favor confirma tu CUI e ingresa el nuevo asiento.</p>
+                <form #modificarForm="ngForm" (ngSubmit)="onModificarSubmit()">
+                <div class="mb-3">
+                    <label for="cuiModificar" class="form-label">Tu CUI</label>
+                    <input type="text" class="form-control" id="cuiModificar" name="cuiModificar" [(ngModel)]="cuiInput" required>
+                </div>
+                <div class="mb-3">
+                    <label for="asientoNuevo" class="form-label">Nuevo Asiento (ej. A4, I2)</label>
+                    <input type="text" class="form-control" id="asientoNuevo" name="asientoNuevo" [(ngModel)]="asientoNuevoInput" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!modificarForm.valid">Confirmar Modificación</button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="cancelarModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cancelar Reserva</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Para cancelar la reserva del asiento <strong>{{ reservaActiva?.id_asiento }}</strong>, por favor confirma tu CUI.</p>
+                <form #cancelarForm="ngForm" (ngSubmit)="onCancelarSubmit()">
+                <div class="mb-3">
+                    <label for="cuiCancelar" class="form-label">Tu CUI</label>
+                    <input type="text" class="form-control" id="cuiCancelar" name="cuiCancelar" [(ngModel)]="cuiInput" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-danger" [disabled]="!cancelarForm.valid">Confirmar Cancelación</button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="notificacionModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{{ modalTitle }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+            <div class="modal-body">
+              <p class="modal-text-pre-wrap">{{ modalBody }}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

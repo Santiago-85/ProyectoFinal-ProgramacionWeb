@@ -1,0 +1,80 @@
+<div class="container my-5">
+  <h1 class="text-center mb-5">Panel de Reportes</h1>
+
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-2">Cargando datos...</p>
+  </div>
+
+  <div *ngIf="!isLoading && reportesData">
+    <div class="row g-4 mb-5">
+      <div class="col-md-4">
+        <div class="card text-center h-100 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Usuarios Totales</h5>
+            <p class="display-4 fw-bold">{{ reportesData.totalUsuarios }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-center h-100 shadow-sm">
+          <div class="card-header">Clase de Negocios</div>
+          <div class="card-body">
+            <p class="card-text">Ocupados: <span class="fw-bold">{{ reportesData.reporteAsientos.negociosOcupados }}</span></p>
+            <p class="card-text">Libres: <span class="fw-bold">{{ reportesData.reporteAsientos.negociosLibres }}</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-center h-100 shadow-sm">
+          <div class="card-header">Clase Económica</div>
+          <div class="card-body">
+            <p class="card-text">Ocupados: <span class="fw-bold">{{ reportesData.reporteAsientos.economicaOcupados }}</span></p>
+            <p class="card-text">Libres: <span class="fw-bold">{{ reportesData.reporteAsientos.economicaLibres }}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col">
+        <div class="card shadow-sm">
+          <div class="card-header"><h5 class="mb-0">Reservas por Usuario</h5></div>
+          <ul class="list-group list-group-flush">
+            <li *ngFor="let item of reportesData.reservasPorUsuario" class="list-group-item d-flex justify-content-between align-items-center">
+              {{ item.nombre_completo }}
+              <span class="badge bg-primary rounded-pill">{{ item.cantidad_reservas }}</span>
+            </li>
+            <li *ngIf="reportesData.reservasPorUsuario.length === 0" class="list-group-item text-muted">
+              Aún no hay reservas registradas por ningún usuario.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <h2 class="text-center mb-4">Diagrama de Asientos Actual</h2>
+    <div class="row justify-content-center">
+      <div class="col-lg-5 mb-4">
+        <div class="seating-chart-container p-3 rounded bg-light">
+          <h3 class="text-center text-muted">Clase de Negocios</h3>
+          <div *ngFor="let fila of filasNegocios" class="d-flex justify-content-center gap-2 my-2">
+            <div *ngFor="let asiento of asientosNegociosAgrupados[fila]" class="seat small" [ngClass]="{'occupied': asiento.estado === 'Ocupado', 'available': asiento.estado === 'Disponible'}">
+              {{ asiento.id_asiento }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7 mb-4">
+        <div class="seating-chart-container p-3 rounded bg-light">
+          <h3 class="text-center text-muted">Clase Económica</h3>
+          <div *ngFor="let fila of filasEconomica" class="d-flex justify-content-center gap-2 my-2">
+            <div *ngFor="let asiento of asientosEconomicaAgrupados[fila]" class="seat small" [ngClass]="{'occupied': asiento.estado === 'Ocupado', 'available': asiento.estado === 'Disponible'}">
+              {{ asiento.id_asiento }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
