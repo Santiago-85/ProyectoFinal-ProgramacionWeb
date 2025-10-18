@@ -1,59 +1,54 @@
-# ProyectoFinal
+# ✈️ Servinsa - Sistema de Reservas de Vuelos
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.3.
+Bienvenido al repositorio del front-end de Servinsa, una aplicación web para la gestión y reserva de asientos de avión. Este proyecto fue desarrollado con Angular.
 
-## Development server
+## Descripción del Sitio
 
-To start a local development server, run:
+AeroMeso es una plataforma que permite a los usuarios:
+* Crear una cuenta y gestionar su perfil.
+* Visualizar un mapa de asientos interactivo del avión.
+* Reservar uno o múltiples asientos de forma manual o aleatoria.
+* Gestionar sus reservas (modificar o cancelar).
+* Cargar y descargar un listado completo de reservas en formato XML.
+* Visualizar un panel de reportes con estadísticas clave.
 
-```bash
-ng serve
-```
+## Prerrequisitos
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Antes de empezar, asegúrate de tener instalado lo siguiente:
+* [Node.js](https://nodejs.org/) (versión 18 o superior)
+* [Angular CLI](https://angular.io/cli) (versión 17 o superior)
+* [Git](https://git-scm.com/)
 
-## Code scaffolding
+## Instalación
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Sigue estos pasos para descargar y configurar el proyecto en tu máquina local.
 
-```bash
-ng generate component component-name
-```
+1.  **Clona el repositorio:**
+    ```bash
+    git clone [https://github.com/tu-usuario/aeromeso-frontend.git](https://github.com/tu-usuario/aeromeso-frontend.git)
+    ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+2.  **Navega a la carpeta del proyecto:**
+    ```bash
+    cd aeromeso-frontend
+    ```
 
-```bash
-ng generate --help
-```
+3.  **Instala las dependencias:**
+    Este comando descargará todos los paquetes necesarios para que Angular funcione.
+    ```bash
+    npm install
+    ```
 
-## Building
+**Nota:** Este repositorio solo contiene el front-end. También necesitarás configurar y ejecutar la [API del back-end](https://github.com/Santiago-85/ProyectoFinalAPI-ProgramacionWeb).  
 
-To build the project run:
+## Uso
 
-```bash
-ng build
-```
+1.  **Ejecuta la API:** Asegúrate de que el servidor del back-end esté corriendo (normalmente en `http://localhost:3000`).
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+2.  **Ejecuta la aplicación de Angular:**
+    Este comando iniciará el servidor de desarrollo.
+    ```bash
+    ng serve -o
+    ```
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+3.  **Abre la aplicación:** El comando anterior abrirá automáticamente tu navegador en `http://localhost:4200`, donde podrás interactuar con el sitio web.
